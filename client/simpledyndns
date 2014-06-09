@@ -1,0 +1,23 @@
+#!/bin/sh
+#
+# put this script into /etc/network/if-up.d
+#
+
+HOST="server.example.com"
+IDENTITY="/etc/ssh/ssh_host_rsa_key"
+TIMEOUT=3
+
+set -e
+
+case "$ADDRFAM" in
+  inet|inet6) : ;;
+  *) exit 0 ;;
+esac
+
+ssh \
+	-o ConnectTimeout="$TIMEOUT" \
+	-o UserKnownHostsFile=/dev/null \
+	-o StrictHostKeyChecking=no \
+	-i "$IDENTITY" \
+	simpledyndns@"$HOST"
+

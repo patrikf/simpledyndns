@@ -1,0 +1,47 @@
+SimpleDynDNS is a simple set of scripts to track dynamic IP addresses. It does
+so using SSH-based authentication. Much like e.g. gitosis, the login shell is
+replaced with a script that will update a map of IP addresses.
+
+Project home: http://github/patrikf/simpledyndns
+
+Setting up the server
+=====================
+
+Create a user:
+	# adduser --disabled-password simpledyndns
+
+Create the authorized_keys file and set the permissions correctly:
+	# cd /home/simpledyndns
+	# mkdir .ssh
+	# touch .ssh/authorized_keys
+	# chown -R simpledyndns .ssh
+	# chmod -R go-rwx .ssh
+
+Copy the scripts in server/ to /home/simpledyndns/.
+
+Adding a client to the system
+=============================
+
+Introducing a new client to the server
+--------------------------------------
+
+Generate a SSH keypair on the client. I just use /etc/ssh/ssh_host_rsa_key.
+
+On the client, get the public key:
+	$ cat /etc/ssh/ssh_host_rsa_key.pub
+	ssh-rsa _BASE64ENCODEDPUBLICKEY..._ _COMMENT_
+
+On the server, add the public key to /home/simpledyndns/.ssh/authorized_keys by
+adding a line like this:
+	[TODO] _BASE64ENCODEDPUBLICKEY..._ _COMMENT_
+
+Setting up the client
+---------------------
+
+Copy the script in client/ to /etc/network/if-up.d/.
+
+Adjust the variables in the script to match your setup.
+
+If your IP address can change while the network stays up, you will have to find
+some other way of running the scripts whenever this happens. A simple solution
+might be using a cron job.
