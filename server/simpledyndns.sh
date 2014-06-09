@@ -17,7 +17,9 @@ cd "$HOME"
 touch map
 chmod 644 map
 
-ENTRY="$IP$TAB$ALIAS"
+TIMESTAMP="$(date +"%Y-%m-%d %H:%M:%S")"
+
+ENTRY="$IP$TAB$ALIAS$TAB# $TIMESTAMP"
 
 echo "$ENTRY" >> map
 
